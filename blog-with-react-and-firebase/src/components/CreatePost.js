@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import "./CreatePost.css";
 import { auth, db } from "../firebase";
 
-const CreatePost = () => {
+const CreatePost = ({ isAuth }) => {
   const [title, setTitle] = useState();
   const [postText, setPostText] = useState();
 
@@ -23,6 +23,13 @@ const CreatePost = () => {
 
     navigate("/");
   };
+
+  // 未ログイン時、記事投稿画面を開かない
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <div className="createPostPage">
